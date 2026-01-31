@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人简介 | 我的个人主页</title>
+    <style>
+        /* 全局样式重置，消除默认边距和统一盒模型 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        /* 页面背景和整体布局 */
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 容器：居中显示，限制最大宽度，增加内边距和阴影 */
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 头部区域：头像+基本信息 */
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        /* 头像样式：圆形、固定尺寸、居中 */
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            /* 保证图片不变形 */
+            margin-bottom: 15px;
+            border: 3px solid #e0e0e0;
+        }
+
+        .avatar:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 20px rgba(122, 121, 121, 0.8);
+        }
+
+        /* 姓名样式 */
+        .name {
+
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        /* 联系方式样式 */
+        .contact {
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* 模块通用样式：标题+内容 */
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+
+        /* 信息模块 */
+        .jianjie {
+            list-style: none;
+        }
+
+        .jianjie li {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .info-list li span {
+            display: inline-block;
+            width: 80px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        /* 爱好模块：标签式展示 */
+        .hobbies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            /* 标签之间的间距 */
+        }
+
+        .hobby {
+            padding: 8px 15px;
+            background-color: #e8f4fd;
+            color: #3498db;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .hobby:hover {
+            background: rgba(0, 120, 255, 0.2);
+            transform: translateX(5px);
+
+        }
+
+        /* 经历模块 */
+        .project-item {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .project-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .project-title {
+            font-weight: bold;
+            font-size: 17px;
+            margin-bottom: 5px;
+        }
+
+        .project-desc {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* 响应式适配：手机端优化 */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+
+            .avatar {
+                width: 120px;
+                height: 120px;
+            }
+
+            .name {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 头部：头像+姓名+联系方式 -->
+        <div class="header">
+            <img src="photo1.jpg" title="个人头像" class="avatar">
+            <h1 class="name">刘一诺</h1>
+            <p class="contact">
+                电话：19855113878 <br />
+                邮箱：lyn666@mail.ustc.edu.cn
+            </p>
+        </div>
+
+        <!-- 信息模块 -->
+        <div class="section">
+            <h2 class="title">基础信息</h2>
+            <ul class="jianjie">
+                <li><span>性别：</span>男</li>
+                <li><span>年龄：</span>18岁</li>
+                <li><span>学校：</span>中国科学技术大学</li>
+                <li><span>学院：</span>微电子学院</li>
+                <li><span>年级：</span>大一</li>
+            </ul>
+        </div>
+
+        <!-- 爱好模块 -->
+        <div class="section">
+            <h2 class="title">兴趣爱好</h2>
+            <div class="hobbies">
+                <span class="hobby">象棋</span>
+                <span class="hobby">羽毛球</span>
+                <span class="hobby">乒乓球</span>
+                <span class="hobby">篮球</span>
+                <span class="hobby">游泳</span>
+                <span class="hobby">打游戏</span>
+            </div>
+        </div>
+
+        <!-- 经历模块 -->
+        <div class="section">
+            <h2 class="title">项目经历</h2>
+            <div class="project-item">
+                <p class="project-desc">
+                    ○ 负责大一上学期《集成电路科技导论》期末大作业wiki制作
+                </p>
+            </div>
+        </div>
+
+        <!-- 评价模块 -->
+        <div class="section">
+            <h2 class="title">自我评价</h2>
+            <div class="project-item">
+                <p class="project-desc">
+                    一个活泼开朗的阳光boy，学习能力较强，有一定的动手能力，期待与大家一起学习、共同进步！
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
