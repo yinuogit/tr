@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人主页</title>
+    <link href="../img/ustc.jpg" rel="stylesheet">
+    <!-- 引入字体图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 头部导航栏 */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+            /* 背景色过渡 */
+        }
+
+        /* 导航栏滚动变色效果 */
+        header.scrolled {
+            background-color: #1a2530;
+            padding: 0.8rem 5%;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            position: relative;
+        }
+
+        /* 名字hover动画 */
+        .name::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #3498db;
+            transition: width 0.3s ease;
+        }
+
+        .name:hover::after {
+            width: 100%;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav li {
+            margin-left: 2rem;
+            position: relative;
+        }
+
+        /* 导航链接hover效果 */
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            padding: 5px 0;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #3498db;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #3498db;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .starry-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("https://ts1.tc.mm.bing.net/th/id/R-C.73e5c54745ddfc0a107a74706361c702?rik=26qtXAJP%2fVrqoQ&riu=http%3a%2f%2fimg95.699pic.com%2fphoto%2f50127%2f3659.jpg_wh860.jpg&ehk=JapwTQUodSOxmZxyTVczBsc%2b%2fx8IwXlOo4w18%2bYXbY4%3d&risl=&pid=ImgRaw&r=0");
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: 2;
+        }
+
+        .avatar-container {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+            margin-bottom: 40px;
+            transition: all 0.6s ease;
+            z-index: 10;
+        }
+
+        .avatar-container:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 35px rgba(255, 255, 255, 0.4);
+        }
+
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            width: 100%;
+            max-width: 380px;
+            padding: 0 20px;
+            z-index: 10;
+        }
+
+        .btn-custom {
+            position: relative;
+            padding: 16px 0;
+            text-decoration: none;
+            color: white;
+            font-family: 'SimSun', serif;
+            font-size: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.35);
+            border-radius: 15px 30px 20px 12px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(6px);
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .btn-custom::before {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            left: 20px;
+            transition: all 0.4s ease;
+        }
+
+        .btn-custom i {
+            margin-right: 18px;
+            font-size: 22px;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+        }
+
+        .btn-custom:hover {
+            border-color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-6px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .btn-custom:hover::before {
+            transform: scale(1.3);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+        }
+
+        .btn-custom:active {
+            transform: translateY(-2px);
+        }
+
+        .hobby-btn::after {
+            content: '★';
+            position: absolute;
+            right: 25px;
+            opacity: 0.5;
+            transition: all 0.4s ease;
+        }
+
+        .hobby-btn:hover::after {
+            opacity: 1;
+            transform: rotate(15deg);
+        }
+
+        .intro-btn::after {
+            content: '○';
+            position: absolute;
+            right: 25px;
+            opacity: 0.5;
+            transition: all 0.4s ease;
+        }
+
+        .intro-btn:hover::after {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .study-btn::after {
+            content: '△';
+            position: absolute;
+            right: 25px;
+            opacity: 0.5;
+            transition: all 0.4s ease;
+        }
+
+        .study-btn:hover::after {
+            opacity: 1;
+            transform: rotate(-15deg);
+        }
+
+        /* 全新设计的页尾样式 */
+        footer {
+            position: absolute;
+            bottom: 30px;
+            z-index: 10;
+            /* 核心质感：双层背景+毛玻璃 */
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(100, 150, 200, 0.1) 100%),
+                rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            /* 精致边框+圆角 */
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 100px;
+            /* 全圆角更柔和 */
+            /* 文字样式 - 关键修改：提升亮度（opacity从0.9改到1，色值更亮） */
+            color: rgba(255, 255, 255, 1);
+            /* 纯白不透明，亮度最高 */
+            font-family: 'Microsoft YaHei', sans-serif;
+            font-size: 17px;
+            font-weight: 400;
+            letter-spacing: 1.2px;
+            /* 字间距提升精致感 */
+            /* 内边距+阴影 */
+            padding: 14px 32px;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.15),
+                /* 外层阴影 */
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            /* 内层高光 */
+            /* 呼吸动效 */
+            animation: breath 4s ease-in-out infinite;
+            /* 基础过渡 */
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            /* 可选：增加文字发光效果，进一步提升视觉亮度 */
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+        }
+
+        /* 呼吸动画：轻微缩放+透明度变化 */
+        @keyframes breath {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.85;
+            }
+
+            50% {
+                transform: scale(1.03);
+                opacity: 1;
+            }
+        }
+
+        /* 悬浮增强效果 */
+        footer:hover {
+            transform: translateY(-6px) scale(1.05);
+            opacity: 1;
+            box-shadow:
+                0 12px 40px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12),
+                0 0 20px rgba(150, 200, 255, 0.1);
+            /* 微光光晕 */
+            border-color: rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            /* 悬浮时文字保持纯白高亮 */
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="starry-bg"></div>
+    <div class="bg-overlay"></div>
+
+    <div class="avatar-container">
+        <img src="../img/me.jpg" alt="个人头像">
+    </div>
+
+    <div class="btn-container">
+        <a href="./resume.html" class="btn-custom intro-btn">
+            <i class="fa fa-user-o"></i> 简要介绍
+        </a>
+        <a href="./hobbies.html" class="btn-custom hobby-btn">
+            <i class="fa fa-heart-o"></i> 兴趣爱好
+        </a>
+        <a href="Hometown.html" class="btn-custom study-btn">
+            <i class="fa fa-building"></i> 我的家乡
+        </a>
+    </div>
+
+    <footer>
+        不强求，不将就
+    </footer>
+</body>
+
+</html>

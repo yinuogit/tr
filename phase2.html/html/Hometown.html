@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My hometown : Gaoan</title>
+    <!-- 引入Font Awesome图标库（关闭按钮需要） -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 全局样式重置与基础设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            /* 给body留出导航栏高度，避免内容顶上去 */
+            padding-top: 70px;
+        }
+
+        /* 头部导航栏 - 关键：提升层级，确保不被遮挡 */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 5%;
+            position: fixed;
+            /* 改为fixed，确保始终悬浮在顶部 */
+            top: 0;
+            left: 0;
+            width: 100%;
+            /* 增加宽度100%，确保全屏 */
+            z-index: 9999;
+            /* 提升z-index，高于内容区域 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, padding 0.3s ease;
+        }
+
+        /* 导航栏滚动变色效果 */
+        header.scrolled {
+            background-color: #1a2530;
+            padding: 0.8rem 5%;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            position: relative;
+        }
+
+        /* 名字hover动画 */
+        .name::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #3498db;
+            transition: width 0.3s ease;
+        }
+
+        .name:hover::after {
+            width: 100%;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav li {
+            margin-left: 2rem;
+            position: relative;
+        }
+
+        /* 导航链接hover效果 */
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            padding: 5px 0;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #3498db;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #3498db;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* 详情页容器 - 关键：调整top值，避开导航栏 */
+        .detail-page {
+            position: relative;
+            /* 从fixed改为relative，避免覆盖导航栏 */
+            width: 100%;
+            min-height: calc(100vh - 70px);
+            /* 自适应高度，减去导航栏高度 */
+            background-color: #fff;
+            overflow: hidden;
+            z-index: 1;
+            /* 低于导航栏的z-index */
+        }
+
+        /* 关闭按钮 */
+        .close-detail {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .close-detail:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .close-detail i {
+            font-size: 20px;
+            color: #666;
+        }
+
+        /* 滚动容器 */
+        .detail-scroll-container {
+            width: 100%;
+            height: 100%;
+            padding: 80px 20px 40px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        /* 内容主体 */
+        .detail-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* 标题样式 */
+        .detail-content h2 {
+            text-align: center;
+            font-size: 2.2rem;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e67e22;
+            position: relative;
+        }
+
+        .detail-content h2::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background-color: #d35400;
+        }
+
+        /* 文本区域 */
+        .text-area {
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
+
+        .text-area p {
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+            text-indent: 2em;
+            color: #444;
+        }
+
+        /* 图片画廊样式 */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+            padding: 10px;
+        }
+
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item img:hover {
+            opacity: 0.95;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 65px;
+                /* 移动端调整导航栏高度 */
+            }
+
+            .detail-scroll-container {
+                padding: 70px 15px 30px;
+            }
+
+            .detail-content h2 {
+                font-size: 1.8rem;
+            }
+
+            .text-area p {
+                font-size: 1rem;
+            }
+
+            .image-gallery {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+            }
+
+            .gallery-item img {
+                height: 200px;
+            }
+
+            .close-detail {
+                width: 35px;
+                height: 35px;
+            }
+
+            .close-detail i {
+                font-size: 18px;
+            }
+
+            /* 移动端导航栏适配 */
+            nav li {
+                margin-left: 1rem;
+            }
+
+            .name {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding-top: 60px;
+            }
+
+            .detail-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .image-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-item img {
+                height: 180px;
+            }
+        }
+
+        /* 滚动条美化 */
+        .detail-scroll-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .detail-scroll-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .detail-scroll-container::-webkit-scrollbar-thumb {
+            background: #e67e22;
+            border-radius: 4px;
+        }
+
+        .detail-scroll-container::-webkit-scrollbar-thumb:hover {
+            background: #d35400;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 - 现在会正常显示在顶部 -->
+    <header id="main-header">
+        <div class="nav-container">
+            <div class="name">刘一诺</div>
+            <nav>
+                <ul>
+                    <li><a href="./Home.html">首页</a></li>
+                    <li><a href="./resume.html">简历</a></li>
+                    <li><a href="./hobbies.html">爱好</a></li>
+                    <li><a href="./Hometown.html">家乡</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 家乡详情内容 - 不再覆盖导航栏 -->
+    <div class="detail-page" id="hometown-detail">
+        <div class="close-detail">
+            <i class="fa fa-times"></i>
+        </div>
+        <div class="detail-scroll-container">
+            <div class="detail-content">
+                <h2>我的家乡·江西高安</h2>
+                <div class="text-area">
+                    <p>
+                        我的家乡江西高安，是一座浸润着千年墨香与烟火气息的古城，像一颗温润的明珠镶嵌在赣中腹地，紧邻南昌，却藏着独属于自己的从容与厚重。这座始建于汉高祖六年的城池，曾是“吴头楚尾”的交通要冲，古往今来的马蹄与车辙，在青石板路上刻下了岁月的痕迹。华林寨的峰峦间，还留存着明代华林起义的营盘遗址，演兵场的断壁残垣、斩敌石的斑驳痕迹，无声诉说着“杀富济贫”的侠义传奇，而西王母之子玄秀真人筑坛的传说，又为这座山添了几分缥缈仙气。
+                    </p>
+                </div>
+                <div class="image-gallery">
+                    <div class="gallery-item">
+                        <img src="../img/Daguanlou.webp" alt="高安大观楼">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../img/Hualin.webp" alt="华林寨遗址">
+                    </div>
+                </div>
+                <div class="text-area">
+                    <p>
+                        谈及高安的味道，最是让人魂牵梦绕。被誉为“素中之荤”的高安腐竹，是刻在每个游子舌尖的乡愁。选用本地优质黄豆，经浸泡、磨浆、煮浆、凝固、压榨等多道古法工序，才能成就那片色泽黄亮、油光透亮的珍品，无论是清炒时的豆香醇厚，还是炖汤时的吸汁入味，每一口都是自然与匠心的交融。
+                    </p>
+                    <p>
+                        清晨的街巷里，一碗热气腾腾的炒粉是唤醒城市的密码，劲道的米粉裹着鲜美的酱汁，配上酸豆角、花生米，简单的食材在火候中碰撞出最地道的风味。
+                    </p>
+
+                </div>
+                <div class="image-gallery">
+                    <div class="gallery-item">
+                        <img src="../img/fuzhu.webp" alt="高安腐竹">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../img/chaofen.webp" alt="高安炒粉">
+                    </div>
+
+                </div>
+                <div class="text-area">
+                    <p>
+                        高安的美，藏在山水与烟火的交织里。锦江穿城而过，滋养出两岸的旖旎风光，春日里柳丝垂岸，夏日里荷风送香，秋日里芦花飞雪，冬日里江雾迷蒙，每一季都有不同的景致。
+                    </p>
+                    <p>
+                        城郊的巴夫洛生态谷，是自然的馈赠，万亩田园里，稻田翻浪、花海铺锦，周末时分，游人三三两两，或骑行漫步，或采摘垂钓，尽享田园之乐。而散布在乡间的古村落，青瓦白墙映着绿水青山，祠堂里的雕梁画栋、古道上的青苔石阶，都保留着最本真的模样，让人仿佛穿越回旧时光。
+                    </p>
+                </div>
+                <div class="image-gallery">
+                    <div class="gallery-item">
+                        <img src="../img/jinjiang.jpg" alt="锦江两岸">
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="../img/bafuluo.jpg" alt="巴夫洛生态谷">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 可选：添加导航栏滚动变色的JS -->
+    <script>
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 10) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // 可选：关闭按钮点击事件（如果需要）
+        document.querySelector('.close-detail').addEventListener('click', function () {
+            // 这里可以添加关闭详情页的逻辑，比如返回上一页
+            window.history.back();
+        });
+    </script>
+</body>
+
+</html>
