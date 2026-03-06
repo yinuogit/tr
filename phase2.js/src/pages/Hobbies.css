@@ -5,14 +5,18 @@
     margin: 0 !important;
     padding-top: 0 !important;
 
-    /* 核心：隐藏滚动条但保留滚动功能 */
-    overflow-y: auto;
-    /* 内容超出时可滚动 */
+    /* 核心修改：禁止竖直滚动，固定页面 */
+    overflow-y: hidden; /* 完全禁止垂直滚动 */
+    position: fixed;    /* 固定定位，防止页面整体滑动 */
+    width: 100%;        /* 固定定位后需指定宽度，避免布局错乱 */
+    height: 100vh;      /* 高度占满视口 */
+    
+    /* 保留原有隐藏滚动条的样式（可选，即使禁止滚动也可保留） */
     scrollbar-width: none;
-    /* Firefox 隐藏滚动条 */
     -ms-overflow-style: none;
-    /* IE/Edge 隐藏滚动条 */
 }
+
+/* 其他样式保持不变... */
 
 /* Chrome/Edge/Safari 隐藏滚动条 */
 .hobbies-page::-webkit-scrollbar {
@@ -92,4 +96,5 @@
     .hobby-img {
         height: 150px;
     }
+
 }
